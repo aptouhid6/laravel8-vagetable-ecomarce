@@ -13,7 +13,7 @@
   </div>
 
   <!-- Navbar -->
-  @include('admin.layouts._topNav')
+       @include('admin.layouts._topNav')
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
