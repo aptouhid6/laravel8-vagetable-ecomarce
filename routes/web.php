@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,5 @@ Route::get('admin/dashboard', function (){
 Route::get('admin/blogs', function (){
     return view('admin.blog');
 });
+
+Route::resource('admin/category', CategoryController::class);

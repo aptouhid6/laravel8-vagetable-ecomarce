@@ -24,26 +24,32 @@
                with font-awesome or any other icon font library -->
          
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="{{ route('admin.dashboard') }}" class="nav-link @if(request()->routeIs('admin.dashboard')) active @endif">
               <i class="fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item @if(request()->routeIs('category.index') || request()->routeIs('category.create') || request()->routeIs('category.edit')) menu-open @endif">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Layout Options
+                Category
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="{{ route('category.index') }}" class="nav-link @if(request()->routeIs('category.index')) active @endif">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation</p>
+                  <p>Category List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('category.create') }}" class="nav-link @if(request()->routeIs('category.create')) active @endif">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add new Category</p>
                 </a>
               </li>
             </ul>
