@@ -53,24 +53,26 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($categories as $category)
+                      @foreach($categories as $key=>$category)
                       <tr>
-                        <td>{{ $category->id }}</td>
+                        <td>{{ $categories->firstItem() + $key }}</td>
+                        {{-- <td>{{ $category->id }}</td> --}}
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->description }}</td>
                         <td>{{ $category->status }}</td>
                         <td>
-                            <a class="btn btn-primary btn-sm" href="{{ route('category.edit',$category->id) }}">Edit</a>
+                            <a class="btn btn-primary btn-sm mr-1" href="{{ route('category.edit',$category->id) }}">Edit</a>
                             <form action="{{ route('category.destroy',$category->id) }}" method="post">
                                @method('delete')
                                @csrf
-                               <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                               <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Are you confirm to delete?')">Delete</button>
                             </form>
                         </td>
                       </tr>
                       @endforeach
                     </tbody>
                   </table>
+                  {{ $categories->render() }}
                 </div>
                 <!-- /.card-body -->
               </div>
