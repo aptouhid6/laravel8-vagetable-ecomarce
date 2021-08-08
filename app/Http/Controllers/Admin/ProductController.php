@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $data['title'] = 'List of Products';
         // $data['products'] = Product::paginate();
-        $data['products'] = Product::orderBy('id','DESC')->paginate(2);
+        $data['products'] = Product::with('category')->orderBy('id','DESC')->paginate(5);
         return view('admin.product.index', $data);
     }
 
@@ -29,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $data['title'] = 'Add new Product';
+        $data['title'] = 'Create new Product';
         $data['categories'] = Category::all();
         return view('admin.product.create', $data);
     }
@@ -48,6 +48,7 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required',
             'status' => 'required',
+            'image' => 'mimes:jpeg,png'
         ]);
         $product = new Product();
         $product->category_id = $request->category_id;
@@ -59,6 +60,10 @@ class ProductController extends Controller
         $product->image = $request->image;
         $product->status = $request->status;
         $product->stock = $request->stock;
+        if($request->hasFile('image')){
+            $image_path = $this->fileUpload($request->file('image'));
+            $product->image = $image_path;
+        }
         $product->save();
         session()->flash('success','Product created successfully');
         return redirect()->route('product.index');
@@ -103,6 +108,7 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required',
             'status' => 'required',
+            'image' => 'mimes:jpeg,png'
         ]);
         $product->category_id = $request->category_id;
         $product->name = $request->name;
@@ -110,12 +116,29 @@ class ProductController extends Controller
         $product->color = $request->color;
         $product->size = $request->size;
         $product->price = $request->price;
-        $product->image = $request->image;
+        // $product->image = $request->image;
         $product->status = $request->status;
         $product->stock = $request->stock;
+        if($request->hasFile('image')){
+            $image_path = $this->fileUpload($request->file('image'));
+            if($product->image != null && file_exists($product->image)){
+                unlink($product->image);
+            }
+
+            $product->image = $image_path;
+        }
+
+
         $product->save();
         session()->flash('success','Product updated successfully');
         return redirect()->route('product.index');
+    }
+
+    private function fileUpload($img){
+        $path = 'images/product';
+        $file_name = rand(0000,9999).'_'.$img->getFilename().'.'.$img->getClientOriginalExtension();
+        $img->move($path,$file_name);
+        return $path.'/'.$file_name;
     }
 
     /**
@@ -126,6 +149,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if($product->image != null && file_exists($product->image)){
+            unlink($product->image);
+        }
         $product->delete();
         session()->flash('success','Product deleted successfully');
         return redirect()->route('product.index');

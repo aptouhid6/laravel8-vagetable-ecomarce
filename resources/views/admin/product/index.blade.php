@@ -52,7 +52,9 @@
                       <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Category Name</th>
                         <th>Description</th>
+                        <th>Image</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -62,8 +64,12 @@
                       <tr>
                         <td>{{ $products->firstItem() + $key }}</td>
                         {{-- <td>{{ $product->id }}</td> --}}
+                        <td>{{ $product->category->name }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->description }}</td>
+                        <td>
+                           <img src="{{ asset($product->image) }}" alt="" width="10%">
+                        </td>
                         <td>{{ $product->status }}</td>
                         <td>
                             <a class="btn btn-primary btn-sm mr-1" href="{{ route('product.edit',$product->id) }}">Edit</a>

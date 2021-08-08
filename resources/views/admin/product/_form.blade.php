@@ -56,4 +56,7 @@
       <input type="file" name="image" class="form-control" id="image" placeholder="Enter product image">
       @error('image') <i class="text-danger">{{ $message }}</i> @enderror
     </div>
+    @if(isset($product))
+        <img src="{{ asset($product->image) }}" alt="" width="10%">
+    @endif
   </div>
