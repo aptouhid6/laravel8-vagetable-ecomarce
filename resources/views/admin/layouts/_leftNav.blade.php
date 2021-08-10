@@ -54,7 +54,6 @@
               </li>
             </ul>
           </li>
-          {{--  --}}
           <li class="nav-item @if(request()->routeIs('product.index') || request()->routeIs('product.create') || request()->routeIs('product.edit')) menu-open @endif">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -74,6 +73,29 @@
                 <a href="{{ route('product.create') }}" class="nav-link @if(request()->routeIs('product.create')) active @endif">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add new Product</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item @if(request()->routeIs('user.index') || request()->routeIs('user.create') || request()->routeIs('user.edit')) menu-open @endif">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                User
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('user.index') }}" class="nav-link @if(request()->routeIs('user.index')) active @endif">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>User List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('user.create') }}" class="nav-link @if(request()->routeIs('user.create')) active @endif">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add new User</p>
                 </a>
               </li>
             </ul>
