@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Front\FrontController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +18,26 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Route::get('/','Front\FrontController@home');
+
+Route::get('/',[FrontController::class,'home'])->name('front.home');
+
+Route::middleware('auth')->group(function (){
+    Route::get('admin/dashboard', function (){
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+    Route::get('admin/blogs', function (){
+        return view('admin.blog');
+    });
+    Route::resource('admin/category', CategoryController::class);
+    Route::resource('admin/product', ProductController::class);
+    Route::resource('admin/user', UserController::class);
 });
 
-Route::get('admin/dashboard', function (){
-    return view('admin.dashboard');
-})->name('admin.dashboard');
-Route::get('admin/blogs', function (){
-    return view('admin.blog');
-});
+Auth::routes(['register'=>false]);
 
-Route::resource('admin/category', CategoryController::class);
-Route::resource('admin/product', ProductController::class);
-Route::resource('admin/user', UserController::class);
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
