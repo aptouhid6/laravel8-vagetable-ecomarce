@@ -40,17 +40,23 @@
       @error('stock') <i class="text-danger">{{ $message }}</i> @enderror
     </div>
     <div class="form-group">
-        <label>Status</label>
         <div class="form-check">
-            <input name= "status" type="radio" @if(old('status',isset($product)?$product->status:null) == 'Active') checked @endif class="form-check-input" value= "Active" id="active">
-            <label for="active">Active</label>
-        </div>    
-        <div class="form-check">
-          <input name= "status" type="radio" @if(old('status',isset($product)?$product->status:null) == 'Inactive') checked @endif class="form-check-input" value= "Inactive" id="inactive">
-          <label for="inactive">Inctive</label>
-      </div> 
-        @error('status') <i class="text-danger">{{ $message }}</i> @enderror
+            <input name= "is_featured" type="checkbox" @if(old('is_featured',isset($product)?$product->is_featured:null) == 1) checked @endif class="form-check-input" value= "1" id="is_featured">
+            <label for="is_featured">Is_Featured ?</label>
+        </div>
     </div> 
+    <div class="form-group">
+      <label>Status</label>
+      <div class="form-check">
+          <input name= "status" type="radio" @if(old('status',isset($product)?$product->status:null) == 'Active') checked @endif class="form-check-input" value= "Active" id="active">
+          <label for="active">Active</label>
+      </div>    
+      <div class="form-check">
+        <input name= "status" type="radio" @if(old('status',isset($product)?$product->status:null) == 'Inactive') checked @endif class="form-check-input" value= "Inactive" id="inactive">
+        <label for="inactive">Inctive</label>
+    </div> 
+      @error('status') <i class="text-danger">{{ $message }}</i> @enderror
+  </div> 
     <div class="form-group">
       <label for="image">Image</label>
       <input type="file" name="image" class="form-control" id="image" placeholder="Enter product image">

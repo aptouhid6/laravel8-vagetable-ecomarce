@@ -60,6 +60,10 @@ class ProductController extends Controller
         $product->image = $request->image;
         $product->status = $request->status;
         $product->stock = $request->stock;
+        if($request->has('is_featured')){
+            $product->is_featured = $request->is_featured;
+        }
+        
         if($request->hasFile('image')){
             $image_path = $this->fileUpload($request->file('image'));
             $product->image = $image_path;
@@ -119,6 +123,11 @@ class ProductController extends Controller
         // $product->image = $request->image;
         $product->status = $request->status;
         $product->stock = $request->stock;
+        if($request->has('is_featured')){
+            $product->is_featured = $request->is_featured;
+        }else{
+            $product->is_featured = 0;
+        }
         if($request->hasFile('image')){
             $image_path = $this->fileUpload($request->file('image'));
             if($product->image != null && file_exists($product->image)){
