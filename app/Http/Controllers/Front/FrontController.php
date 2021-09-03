@@ -13,4 +13,9 @@ class FrontController extends Controller
         $data['featured_products'] = Product::where('is_featured',1)->limit(8)->get();
         return view('front.home',$data);
     }
+    public function product_details($id){
+        $data['product'] = Product::where('id',$id)->first();
+        // dd($data['product']);
+        return view('front.product_details',$data);
+    }
 }

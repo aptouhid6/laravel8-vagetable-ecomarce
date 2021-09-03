@@ -145,7 +145,7 @@
           @foreach($featured_products as $product)
           <div class="col-md-6 col-lg-3 ftco-animate">
             <div class="product">
-                <a href="#" class="img-prod"><img class="img-fluid" src="{{ file_exists($product->image)?asset($product->image):asset('images/no_image.png') }}" alt="PNT">
+                <a href="{{ route('front.product.details',$product->id) }}" class="img-prod"><img class="img-fluid" src="{{ file_exists($product->image)?asset($product->image):asset('images/no_image.png') }}" alt="PNT">
                     <span class="status">30%</span>
                     <div class="overlay"></div>
                 </a>

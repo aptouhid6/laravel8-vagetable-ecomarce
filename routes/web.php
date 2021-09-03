@@ -25,6 +25,7 @@ use App\Http\Controllers\Front\FrontController;
 // Route::get('/','Front\FrontController@home');
 
 Route::get('/',[FrontController::class,'home'])->name('front.home');
+Route::get('/product/{id}',[FrontController::class,'product_details'])->name('front.product.details');
 
 Route::middleware('auth')->group(function (){
     Route::get('admin/dashboard', function (){
