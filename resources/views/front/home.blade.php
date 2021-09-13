@@ -27,7 +27,6 @@
             <h2 class="subheading mb-4">We deliver organic vegetables &amp; fruits</h2>
             <p><a href="#" class="btn btn-primary">View Details</a></p>
           </div>
-
         </div>
       </div>
     </div>
@@ -100,31 +99,44 @@
                           </div>
                       </div>
                       <div class="col-md-6">
-                          <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({{asset('assets/front/images/category-1.jpg')}});">
-                              <div class="text px-3 py-1">
-                                  <h2 class="mb-0"><a href="#">Fruits</a></h2>
+                        
+                          {{-- @foreach($featured_categories as $id=>$category) --}}
+                             {{-- @if($id < 2) --}}
+                                {{-- @include('front.home_helpers._category') --}}
+                                <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({{asset('assets/front/images/category-1.jpg')}});">
+                                  <div class="text px-3 py-1">
+                                      <h2 class="mb-0"><a href="#">Fruits</a></h2>
+                                  </div>
                               </div>
-                          </div>
-                          <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({{asset('assets/front/images/category-2.jpg')}});">
-                              <div class="text px-3 py-1">
-                                  <h2 class="mb-0"><a href="#">Vegetables</a></h2>
+                              <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({{asset('assets/front/images/category-2.jpg')}});">
+                                  <div class="text px-3 py-1">
+                                      <h2 class="mb-0"><a href="#">Vegetables</a></h2>
+                                  </div>
                               </div>
-                          </div>
+                             {{-- @endif --}}
+                          {{-- @endforeach --}}
                       </div>
                   </div>
               </div>
 
               <div class="col-md-4">
-                  <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({{asset('assets/front/images/category-3.jpg')}});">
+                  
+                  {{-- @foreach($featured_categories as $id=>$category) --}}
+                    {{-- @if($id > 1) --}}
+                      {{-- @include('front.home_helpers._category') --}}
+                      <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({{asset('assets/front/images/category-3.jpg')}});">
                       <div class="text px-3 py-1">
-                          <h2 class="mb-0"><a href="#">Juices</a></h2>
-                      </div>		
-                  </div>
-                  <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({{asset('assets/front/images/category-4.jpg')}});">
-                      <div class="text px-3 py-1">
-                          <h2 class="mb-0"><a href="#">Dried</a></h2>
-                      </div>
-                  </div>
+                        <h2 class="mb-0"><a href="#">Juices</a></h2>
+                    </div>		
+                </div>
+                <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({{asset('assets/front/images/category-4.jpg')}});">
+                    <div class="text px-3 py-1">
+                        <h2 class="mb-0"><a href="#">Dried</a></h2>
+                    </div>
+                </div>
+
+                    {{-- @endif --}}
+                  {{-- @endforeach --}}
               </div>
           </div>
       </div>
@@ -161,7 +173,7 @@
                             <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-menu"></i></span>
                             </a>
-                            <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                            <a href="{{ route('add.to.cart',$product->id) }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                 <span><i class="ion-ios-cart"></i></span>
                             </a>
                             <a href="#" class="heart d-flex justify-content-center align-items-center ">
