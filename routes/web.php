@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Front\FrontController;
+use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,13 @@ use App\Http\Controllers\Front\FrontController;
 // Route::get('/','Front\FrontController@home');
 
 Route::get('/',[FrontController::class,'home'])->name('front.home');
+Route::get('/product/{id}',[FrontController::class,'product_details'])->name('front.product.details');
+Route::get('add-to-cart/{productId}',[CartController::class,'addToCart'])->name('add.to.cart');
+Route::get('cart',[CartController::class,'cart'])->name('front.cart');
+Route::get('remove-form-cart/{productId}',[CartController::class,'removeFormCart'])->name('remove.form.cart');
+Route::get('checkout',[CheckoutController::class,'checkout'])->name('front.checkout');
+Route::post('checkout',[CheckoutController::class,'store'])->name('front.order.place');
+Route::get('order/success',[CheckoutController::class,'success'])->name('front.order.success');
 
 Route::middleware('auth')->group(function (){
     Route::get('admin/dashboard', function (){
@@ -39,5 +48,3 @@ Route::middleware('auth')->group(function (){
 });
 
 Auth::routes(['register'=>false]);
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
