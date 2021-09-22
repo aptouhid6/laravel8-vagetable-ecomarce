@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetail;
-
+// use App\Mail\OrderCancelled;
+use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -53,6 +55,9 @@ class OrderController extends Controller
         $order = Order::findOrFail($order_id);
         $order->status = $order_status;
         $order->save();
+        if($order_status==Order::STATUS_SHIPPED){
+            Mail::to('admin@gmail.com')->send(new OrderShipped($order));
+        }
         session()->flash('message','Order status changed successfully');
         return redirect()->back();
     }
