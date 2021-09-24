@@ -19,6 +19,10 @@ class PaymentController extends Controller
             }]);
         }])->findOrFail($order_id);
 
+        if($order->payment_status  == Order::PAYMENT_STATUS_PAID){
+            return redirect()->route('front.order.status','success');
+        }
+
     $post_data = array();
         $post_data['total_amount'] = $order->total_amount; # You cant not pay less than 10
         $post_data['currency'] = "BDT";
@@ -62,19 +66,22 @@ class PaymentController extends Controller
         $sslc = new SslCommerzNotification();
         # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
         $payment_options = $sslc->makePayment($post_data, 'hosted');
-        dd($payment_options);
-        if (!is_array($payment_options)) {
-            print_r($payment_options);
-            $payment_options = array();
-        }
 
     }
     public function success(Request $request){
         // dd($request->all());
         $order = Order::findOrFail($request->value_a);
         $order->status = Order::STATUS_PROCESSING;
+        // $order->payment_status = Order::PAYMENT_STATUS_PAID;
         $order->payment_status = Order::PAYMENT_STATUS_PAID;
+        $order->payment_method = Order::PAYMENT_METHOD_CARD;
         $order->save();
-        return redirect()->route('front.order.success');
+        return redirect()->route('front.order.status','success');
+    }
+    public function failed(Request $request){
+        return redirect()->route('front.order.status','failed');
+    }
+    public function cancel(Request $request){
+        return redirect()->route('front.order.status','cancel');
     }
 }

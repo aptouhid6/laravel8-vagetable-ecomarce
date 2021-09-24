@@ -15,7 +15,7 @@
           <div class="container">
               <div class="row">
               <div class="col-md-12 ftco-animate">
-                  <div class="alert alert-success">Order Placed Successfully</div>
+                  <div class="alert alert-success">{{ $message }}</div>
               </div>
           </div>
           </div>
