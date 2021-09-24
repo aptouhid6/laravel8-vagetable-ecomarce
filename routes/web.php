@@ -9,6 +9,7 @@ use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Front\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,10 @@ Route::get('remove-form-cart/{productId}',[CartController::class,'removeFormCart
 Route::get('checkout',[CheckoutController::class,'checkout'])->name('front.checkout');
 Route::post('checkout',[CheckoutController::class,'store'])->name('front.order.place');
 Route::get('order/success',[CheckoutController::class,'success'])->name('front.order.success');
+Route::get('order/{id}/payment',[PaymentController::class,'index'])->name('front.order.payment');
+Route::post('payment/success',[PaymentController::class,'success'])->name('front.order.payment.success');
+Route::post('payment/failed',[PaymentController::class,'failed'])->name('front.order.payment.failed');
+Route::post('payment/cancel',[PaymentController::class,'cancel'])->name('front.order.payment.cancel');
 
 Route::middleware('auth')->group(function (){
     Route::get('admin/dashboard', function (){

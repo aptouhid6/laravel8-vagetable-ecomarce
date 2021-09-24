@@ -12,6 +12,10 @@ class Order extends Model
     const STATUS_SHIPPED = 'Shipped';
     const STATUS_DELIVERED = 'Delivered';
     const STATUS_CANCELED = 'Canceled';
+
+    const PAYMENT_STATUS_PAID = 'Paid';
+    const PAYMENT_STATUS_UNPAID = 'Unpaid';
+
     public function order_details(){
         return $this->hasMany(OrderDetail::class);
     }
