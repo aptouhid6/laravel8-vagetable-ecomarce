@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Library\SslCommerz\SslCommerzNotification;
 use Illuminate\Http\Request;
 use App\Models\Order;
-// use App\Models\OrderDetail;
+use App\Models\Transection;
 
 
 class PaymentController extends Controller
-{
-    public function index($order_id){
+{   public function index($order_id){
+        $data['title'] = 'Pay now';
+        $data['order'] = Order::findOrFail($order_id);
+        return view('front.pay_now',$data);
+    }
+    public function pay_now($order_id){
     //  dd($order_id);
         $order = Order::with(['order_details'=>function($query){
             return $query->with(['product'=>function($query2){
@@ -62,6 +66,12 @@ class PaymentController extends Controller
         $post_data['value_d'] = "ref004";
 
         #Before  going to initiate the payment order status need to insert or update as Pending.
+        $transection = new Transection();
+        $transection->transaction_id = $post_data['tran_id'];
+        $transection->order_id = $order->id;
+        $transection->amount = $order->total_amount;
+        $transection->request = json_encode($post_data);
+        $transection->save();
 
         $sslc = new SslCommerzNotification();
         # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
@@ -76,12 +86,26 @@ class PaymentController extends Controller
         $order->payment_status = Order::PAYMENT_STATUS_PAID;
         $order->payment_method = Order::PAYMENT_METHOD_CARD;
         $order->save();
+    
+        $transection = Transection::where('transaction_id',$request->tran_id)->where('order_id',$request->value_a)->first();
+        $transection->status = Transection::STATUS_SUCCESS;
+        $transection->response = json_encode($request->all());
+        $transection->save();    
+
         return redirect()->route('front.order.status','success');
     }
     public function failed(Request $request){
+        $transection = Transection::where('transaction_id',$request->tran_id)->where('order_id',$request->value_a)->first();
+        $transection->status = Transection::STATUS_FAILED;
+        $transection->response = json_encode($request->all());
+        $transection->save();
         return redirect()->route('front.order.status','failed');
     }
     public function cancel(Request $request){
+        $transection = Transection::where('transaction_id',$request->tran_id)->where('order_id',$request->value_a)->first();
+        $transection->status = Transection::STATUS_CANCELLED;
+        $transection->response = json_encode($request->all());
+        $transection->save();
         return redirect()->route('front.order.status','cancel');
     }
 }
