@@ -103,6 +103,7 @@ class PaymentController extends Controller
     }
     public function cancel(Request $request){
         $transection = Transection::where('transaction_id',$request->tran_id)->where('order_id',$request->value_a)->first();
+        // $transection = Transection::where('transaction_id',$request->tran_id)->where('order_id',$request->value_a)->first();
         $transection->status = Transection::STATUS_CANCELLED;
         $transection->response = json_encode($request->all());
         $transection->save();
