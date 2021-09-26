@@ -52,9 +52,15 @@ Route::middleware('auth')->group(function (){
     Route::resource('admin/category', CategoryController::class);
     Route::resource('admin/product', ProductController::class);
     Route::resource('admin/user', UserController::class);
-    Route::get('admin/orders',[OrderController::class,'index'])->name('admin.order.index');
-    Route::get('admin/orders/{id}/show',[OrderController::class,'show'])->name('admin.order.show');
-    Route::put('admin/orders/{id}/{status}',[OrderController::class,'change_status'])->name('admin.order.change.status');
+    Route::middleware('isAdmin')->group(function (){
+        Route::get('admin/orders',[OrderController::class,'index'])->name('admin.order.index');
+        Route::get('admin/orders/{id}/show',[OrderController::class,'show'])->name('admin.order.show');
+        Route::put('admin/orders/{id}/{status}',[OrderController::class,'change_status'])->name('admin.order.change.status');
+    });
+
+    Route::get('admin/unauthorized', function (){
+        return 'unauthorized';
+    })->name('admin.unauthorized');
 });
 
 Auth::routes(['register'=>false]);
