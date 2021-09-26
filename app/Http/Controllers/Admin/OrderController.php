@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Mail;
 class OrderController extends Controller
 {
     public function index(Request $request){
+        // if(!auth()->user()->isAdmin){
+        //     return redirect()->back();
+        // }
         // dd(\request()->all());
         $data['title'] = 'Order List';
         $append = [];
